@@ -13,13 +13,16 @@ module mp1(
     // LED timer
     logic [$clog2(COLOR_INTERVAL) - 1:0] count = 0;
 
-    // stores the 6 required RGB states
+    // RGB states
     logic [2:0] index = 0;
 
+    // LED states
+    logic red, green, blue;
+
     initial begin
-        RGB_R = 1'b0;
-        RGB_G = 1'b0;
-        RGB_B = 1'b0;
+        red = 1'b0;
+        green = 1'b0;
+        blue = 1'b0;
     end
 
     always_ff @(posedge clk) begin
@@ -37,50 +40,53 @@ module mp1(
         case (index)
             // RED
             3'b000 : begin
-                RGB_R = 1'b1;
-                RGB_G = 1'b0;
-                RGB_B = 1'b0;
+                red = 1'b1;
+                green = 1'b0;
+                blue = 1'b0;
             end
             // YELLOW
             3'b001 : begin
-                RGB_R = 1'b1;
-                RGB_G = 1'b1;
-                RGB_B = 1'b0;
+                red = 1'b1;
+                green = 1'b1;
+                blue = 1'b0;
             end
             // GREEN
             3'b010 : begin
-                RGB_R = 1'b0;
-                RGB_G = 1'b1;
-                RGB_B = 1'b0;
+                red = 1'b0;
+                green = 1'b1;
+                blue = 1'b0;
             end
             // CYAN
             3'b011 : begin
-                RGB_R = 1'b0;
-                RGB_G = 1'b1;
-                RGB_B = 1'b1;
+                red = 1'b0;
+                green = 1'b1;
+                blue = 1'b1;
             end
             // BLUE
             3'b100 : begin
-                RGB_R = 1'b0;
-                RGB_G = 1'b0;
-                RGB_B = 1'b1;
+                red = 1'b0;
+                green = 1'b0;
+                blue = 1'b1;
             end
             // MAGENTA
             3'b101 : begin
-                RGB_R = 1'b1;
-                RGB_G = 1'b0;
-                RGB_B = 1'b1;
+                red = 1'b1;
+                green = 1'b0;
+                blue = 1'b1;
             end
             // default: all off
             default: begin
-                RGB_R = 1'b0;
-                RGB_G = 1'b0;
-                RGB_B = 1'b0;
+                red = 1'b0;
+                green = 1'b0;
+                blue = 1'b0;
             end
         endcase
+
     end
 
-
+    assign RGB_R = ~red;
+    assign RGB_G = ~green;
+    assign RGB_B = ~blue;
 
 
 endmodule
